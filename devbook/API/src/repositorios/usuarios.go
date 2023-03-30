@@ -71,7 +71,7 @@ func (repositorio usuarios) Buscar(nomeOuNick string) ([]modelos.Usuario, error)
 	return usuarios, nil
 }
 
-// Buscar traz todos os usuários que atendem um filtro de nome ou nick
+// BuscarPorID traz um usuário do banco de dados
 func (repositorio usuarios) BuscarPorID(ID uint64) (modelos.Usuario, error) {
 	linhas, erro := repositorio.db.Query("SELECT id, nome, nick, email, criadoEm FROM usuarios where id = ?", ID)
 	if erro != nil {
@@ -96,6 +96,7 @@ func (repositorio usuarios) BuscarPorID(ID uint64) (modelos.Usuario, error) {
 	return usuario, nil
 }
 
+// AtualizarUsusario realiza alterações/atualizações de informações do usuário dentro do bando de dados
 func (repositorio usuarios) AtualizarUsuario(ID uint64, usuario modelos.Usuario) error {
 	statement, erro := repositorio.db.Prepare("update usuarios set nome = ?, nick = ?, email = ? where id = ?")
 	if erro != nil {
@@ -108,4 +109,18 @@ func (repositorio usuarios) AtualizarUsuario(ID uint64, usuario modelos.Usuario)
 	}
 	return nil
 
+}
+
+// DeletarUsuario realiza a exclusão do usuário do banco de dados
+func (repositorio usuarios) DeletarUsuario(ID uint64) error {
+	statement, erro := repositorio.db.Prepare("delete from usuarios where id = ?")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(ID); erro != nil {
+		return erro
+	}
+	return nil
 }
