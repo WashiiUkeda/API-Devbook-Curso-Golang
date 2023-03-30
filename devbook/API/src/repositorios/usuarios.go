@@ -108,7 +108,6 @@ func (repositorio usuarios) AtualizarUsuario(ID uint64, usuario modelos.Usuario)
 		return erro
 	}
 	return nil
-
 }
 
 // DeletarUsuario realiza a exclusão do usuário do banco de dados
