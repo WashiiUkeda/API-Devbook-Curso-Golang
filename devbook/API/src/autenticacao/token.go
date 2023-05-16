@@ -4,9 +4,10 @@ import (
 	"api/src/config"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
+// CriarToken retorna um token com as permissões do usuário
 func CriarToken(usuarioID uint64) (string, error) {
 	permissoes := jwt.MapClaims{}
 	permissoes["authorized"] = true
